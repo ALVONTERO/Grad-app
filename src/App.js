@@ -6,13 +6,18 @@ import Home from "./Home";
 import Profile from "./Profile";
 import AddPost from "./AddPost";
 import Location from "./Location";
+import Signup from "./Signup";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
+
   return (
     <div className="app">
       {!user ? (
-        <Login />
+        <>
+          <Signup />
+          <Login />
+        </>
       ) : (
         <>
           <Route path="/" exact>
