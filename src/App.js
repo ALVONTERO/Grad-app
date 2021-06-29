@@ -15,23 +15,27 @@ function App() {
     <div className="app">
       {!user ? (
         <>
-          <Signup />
-          <Login />
+          <div className="login">
+            <Login />
+            <Signup />
+          </div>
         </>
       ) : (
         <>
-          <Route path="/" exact>
-            <Home />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/addpost">
-            <AddPost />
-          </Route>
-          <Route path="/location">
-            <Location />
-          </Route>
+          <div className="app1">
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/profile">
+              <Profile />
+            </Route>
+            <Route path="/addpost">
+              <AddPost />
+            </Route>
+            <Route path="/location">
+              <Location />
+            </Route>
+          </div>
         </>
       )}
     </div>

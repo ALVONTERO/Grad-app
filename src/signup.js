@@ -12,6 +12,7 @@ class Signup extends Component {
       password: "",
       gender: "",
       phoneNumber: "",
+      showMe: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -51,82 +52,110 @@ class Signup extends Component {
       phoneNumber: this.state.phoneNumber,
     };
     event.preventDefault();
-    axios
-      .post("http://localhost:3000/users", user)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
+    if (
+      this.state.userName == "" ||
+      this.state.email == "" ||
+      this.state.password == "" ||
+      this.state.gender == "" ||
+      parseInt(this.state.phoneNumber) < 0 ||
+      parseInt(this.state.phoneNumber == NaN) ||
+      this.state.phoneNumber == ""
+    ) {
+      console.log(parseInt(this.state.phoneNumber));
+      this.setState({ showMe: true });
+    } else {
+      this.setState({ showMe: false });
+      axios
+        .post("http://localhost:3000/users", user)
+        .then(function (response) {
+          console.log(response);
+          
+        })
+        .catch(function (error) {
+          // handle error
+
+          console.log(error);
+        });
+    }
   }
 
   render() {
     return (
-      <div className="base-container" ref={this.props.containerRef}>
-        <div className="header">Register</div>
-        <div className="content">
-          <div className="image">
-            <img src={loginImg} />
+      <div className="base-container-parent">
+        <div className="base-container" ref={this.props.containerRef}>
+          <div className="header">Register</div>
+          <div className="content">
+            <div className="image">
+              <img src={loginImg} />
+            </div>
+            <div className="form">
+              <div className="form-group">
+                <label htmlFor="UserName">UserName</label>
+                <input
+                  type="text"
+                  name="UserName"
+                  placeholder="UserName"
+                  value={this.state.value}
+                  onChange={this.handleUserNameChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="Phone-Number">PhoneNumber</label>
+                <input
+                  type="text"
+                  name="Phone-Number"
+                  min="11"
+                  max="11"
+                  placeholder="Phone-Number"
+                  value={this.state.value}
+                  onChange={this.handlePhoneNumberChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="gender">Gender</label>
+                <input
+                  type="text"
+                  name="Gender"
+                  placeholder="Gender (Male/Female)"
+                  value={this.state.value}
+                  onChange={this.handlegenderChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  value={this.state.value}
+                  onChange={this.handleEmailChange}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  min="8"
+                  max="16"
+                  placeholder="password"
+                  value={this.state.value}
+                  onChange={this.handlePasswordChange}
+                />
+              </div>
+            </div>
           </div>
-          <div className="form">
-            <div className="form-group">
-              <label htmlFor="UserName">UserName</label>
-              <input
-                type="text"
-                name="UserName"
-                placeholder="UserName"
-                value={this.state.value}
-                onChange={this.handleUserNameChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="Phone-Number">PhoneNumber</label>
-              <input
-                type="Number"
-                name="Phone-Number"
-                placeholder="Phone-Number"
-                value={this.state.value}
-                onChange={this.handlePhoneNumberChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="gender">Gender</label>
-              <input
-                type="text"
-                name="Gender"
-                placeholder="Gender"
-                value={this.state.value}
-                onChange={this.handlegenderChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="text"
-                name="email"
-                placeholder="email"
-                value={this.state.value}
-                onChange={this.handleEmailChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                value={this.state.value}
-                onChange={this.handlePasswordChange}
-              />
-            </div>
+          <div>
+            {this.state.showMe ? (
+              <p className="warning">Enter Valid Data!</p>
+            ) : null}
           </div>
-        </div>
-        <div className="footer">
-          <button type="button" className="btn" onClick={this.handleSubmit}>
-            Register
-          </button>
+
+          <div className="footer">
+            <button type="button" className="btn" onClick={this.handleSubmit}>
+              Register
+            </button>
+          </div>
         </div>
       </div>
     );

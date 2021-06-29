@@ -40,5 +40,14 @@
 .app{
   background-color: #f1f2f5;
 }
+.app > .login{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.app1{
+  background-color: #f1f2f5;
+}
 
 

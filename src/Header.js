@@ -15,56 +15,77 @@ import { Link } from "react-router-dom";
 
 function Header(props) {
   const [{ user }, dispatch] = useStateValue();
+ function Logout() {
+  window.location.reload(false);
+ }
   return (
-    <div className="header">
-      <div className="header_left">
-        <img src={logo} alt="" className="src" />
-        <div className="header_input">
-          <SearchIcon />
-          <input
-            type="text"
-            placeholder="Search on Go-Findme"
-            className="text"
-          />
+    <>
+      <div className="header">
+        <div className="header_left">
+          <img src={logo} alt={""} className="src" />
+          <div className="header_input">
+            <SearchIcon />
+            <input
+              type="text"
+              placeholder="Search on Go-Findme"
+              className="text"
+            />
+          </div>
+        </div>
+        <div id="A" className="header_center">
+          <div className={`header_option header_option-${props.cName}`}>
+            <Link style={{ color: "grey" }} to="/">
+              <HomeIcon fontSize="large" />
+            </Link>
+          </div>
+          <div className="header_option">
+            <Link style={{ color: "grey" }} to="/location">
+              <LocationOnIcon fontSize="large" />
+            </Link>
+          </div>
+          <div className="header_option">
+            <Link style={{ color: "grey" }} to="/addpost">
+              <AddIcon fontSize="large" />
+            </Link>
+          </div>
+          <div className="header_option">
+            <SupervisedUserCircleIcon fontSize="large" />
+          </div>
+        </div>
+        <div className="header_right">
+          <div>
+            <IconButton>
+              <AddIcon />
+            </IconButton>
+            <IconButton>
+              <ForumIcon />
+            </IconButton>
+            <IconButton>
+              <NotificationsIcon />
+            </IconButton>
+            <IconButton onClick={null}>
+              <ExpandMoreIcon />
+            </IconButton>
+          </div>
         </div>
       </div>
-      <div id="A" className="header_center">
-        <div className={`header_option header_option-${props.cName}`}>
-          <Link style={{ color: "grey" }} to="/">
-            <HomeIcon fontSize="large" />
+      <div className="more-options">
+        <ul>
+          <Link to="/profile">
+            <li>profile</li>
           </Link>
-        </div>
-        <div className="header_option">
-          <Link style={{ color: "grey" }} to="/location">
-            <LocationOnIcon fontSize="large" />
+          <Link to="/location">
+            <li>Maps</li>
           </Link>
-        </div>
-        <div className="header_option">
-          <Link style={{ color: "grey" }} to="/addpost">
-            <AddIcon fontSize="large" />
+          <Link to="/">
+            <li>Trusted Friends</li>
           </Link>
-        </div>
-        <div className="header_option">
-          <SupervisedUserCircleIcon fontSize="large" />
-        </div>
+          <Link onClick={Logout} to="/">
+            <li>Logout</li>
+          </Link>
+        </ul>
       </div>
-      <div className="header_right">
-        <div>
-          <IconButton>
-            <AddIcon />
-          </IconButton>
-          <IconButton>
-            <ForumIcon />
-          </IconButton>
-          <IconButton>
-            <NotificationsIcon />
-          </IconButton>
-          <IconButton>
-            <ExpandMoreIcon />
-          </IconButton>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
 
