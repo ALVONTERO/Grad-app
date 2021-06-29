@@ -1,4 +1,5 @@
 import React from "react";
+import {useState} from "react";
 import "./Header.css";
 import logo from "./images/magnifying-glasses-png-247.png";
 import SearchIcon from "@material-ui/icons/Search";
@@ -15,8 +16,17 @@ import { Link } from "react-router-dom";
 
 function Header(props) {
   const [{ user }, dispatch] = useStateValue();
+  const [menu, setMenu] = useState("none")
  function Logout() {
   window.location.reload(false);
+ }
+ function moreOptions() {
+   if (menu == "block") {
+     setMenu("none");
+   } else{
+    setMenu("block");
+   }
+  
  }
   return (
     <>
@@ -63,24 +73,25 @@ function Header(props) {
             <IconButton>
               <NotificationsIcon />
             </IconButton>
-            <IconButton onClick={null}>
+            <IconButton onClick={moreOptions}>
               <ExpandMoreIcon />
             </IconButton>
           </div>
         </div>
       </div>
-      <div className="more-options">
+      {/* tazbeet el window bta3t el more options */}
+      <div className="more-options" style={{display:`${menu}`}}>
         <ul>
-          <Link to="/profile">
-            <li>profile</li>
+          <Link className="more-options-li" to="/profile">
+            <li>Profile</li>
           </Link>
-          <Link to="/location">
+          <Link className="more-options-li"  to="/location">
             <li>Maps</li>
           </Link>
-          <Link to="/">
+          <Link className="more-options-li"  to="/">
             <li>Trusted Friends</li>
           </Link>
-          <Link onClick={Logout} to="/">
+          <Link className="more-options-li"  onClick={Logout} to="/">
             <li>Logout</li>
           </Link>
         </ul>

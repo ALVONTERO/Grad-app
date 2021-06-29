@@ -19,6 +19,7 @@ function AddPost() {
   const [url, setUrl] = useState("");
   const [{ user }, dispatch] = useStateValue();
 
+  var arr = ["white","black"];
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -27,28 +28,57 @@ function AddPost() {
   console.log("Image: ", image);
   const handleUpload = (e) => {
     e.preventDefault();
-    const uploadTask = storage.ref(`images/${image.name}`).put(image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => {
-        console.log(error);
-      },
-      () => {
-        storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
-          .then((url) => {
-            setUrl(url);
-          });
+    setTimeout(function () {
+      if (image == false) {
+        alert("Image not uploaded!");
+        e.preventDefault();
+      } else {
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {},
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(image.name)
+              .getDownloadURL()
+              .then((url) => {
+                setUrl(url);
+              });
+          }
+        );
       }
-    );
+    }, 1000);
   };
   const handleSubmit = (e) => {
     if (url == "") {
       alert("Press on Upload Button First!");
       e.preventDefault();
+    } else if (
+      (input == "" ||
+      inputHairColor == "" ||
+      inputEyesColor == "" ||
+      inputSkinColor == "" ||
+      inputAge == "" ||
+      parseInt(input) >= 0 ||
+      isNaN(parseInt(input)) == false ||
+      input.match(new RegExp("[0-9]")) !== null ||
+      parseInt(input) < 0 ||
+      parseInt(input) >= 0 ||
+      parseInt(inputAge) <= 0 ||
+      inputHairColor.match(new RegExp("[0-9]")) !== null ||
+      inputEyesColor.match(new RegExp("[0-9]")) !== null ||
+      inputSkinColor.match(new RegExp("[0-9]")) !== null) ||
+      inputSkinColor.match(new RegExp("white|black")) == null
+      
+    ) {
+      e.preventDefault();
+      console.log(inputSkinColor.match(new RegExp("word1|word2")));
+      
+      console.log("error");
     } else {
       e.preventDefault();
       db.collection("posts").add({
@@ -62,7 +92,7 @@ function AddPost() {
           " Eyes Color:  " +
           inputEyesColor +
           " Skin Color: " +
-          inputSkinColor +
+          inputSkinColor.toLowerCase() +
           "  |  " +
           inputMessage,
         timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -128,8 +158,8 @@ function AddPost() {
               onChange={(e) => {
                 setinputSkinColor(e.target.value);
               }}
-              className="messageSender_input"
-              placeholder={`what is Child Skin Color ?`}
+              className="messageSender_input messageSender_input_color"
+              placeholder={`Skin Color ? (white / black)`}
             ></input>
           </div>
           <div className="loseDetails">
